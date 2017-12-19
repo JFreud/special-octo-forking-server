@@ -29,11 +29,11 @@ void subserver(int from_client) {
   int to_client = server_connect(from_client);// handshake should be finished
   char buffer[HANDSHAKE_BUFFER_SIZE];
 
-  //while(read(from_client, buffer, sizeof(buffer))) {
-    read(from_client, buffer, sizeof(buffer));
+  while(read(from_client, buffer, sizeof(buffer))) {
     process(buffer);
     printf("[server] performed process: %s\n", buffer);
-  //}
+    write(to_client, buffer, sizeof(buffer));
+  }
 }
 
 void process(char * s) {

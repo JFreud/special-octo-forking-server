@@ -13,7 +13,6 @@
   =========================*/
 int server_setup() {
   int from_client;
-  char buffer[HANDSHAKE_BUFFER_SIZE];
   mkfifo("luigi", 0600);
   printf("[server] handshake: making wkp\n");
   from_client = open( "luigi", O_RDONLY, 0);
