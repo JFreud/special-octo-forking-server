@@ -14,11 +14,14 @@ static void sighandler(int signo) {
 
 int main() {
   while (1) {
-    signal(15, sighandler);
+    signal(SIGINT, sighandler);
     int from_client;
     from_client = server_setup();
     int f = fork();
-    if (f) {} //parent
+    if (f) {
+      remove("luigi");
+      close(from_client);
+    } //parent
     else {//child
       subserver(from_client);
     }
@@ -27,7 +30,7 @@ int main() {
 
 void subserver(int from_client) {
   int to_client = server_connect(from_client);// handshake should be finished
-  char buffer[HANDSHAKE_BUFFER_SIZE];
+  char buffer[BUFFER_SIZE];
 
   while(read(from_client, buffer, sizeof(buffer))) {
     process(buffer);
