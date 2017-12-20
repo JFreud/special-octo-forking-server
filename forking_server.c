@@ -1,7 +1,7 @@
 #include "pipe_networking.h"
 #include <signal.h>
 #include <ctype.h>
-
+#include <time.h>
 void process(char *s);
 void subserver(int from_client);
 
@@ -17,11 +17,14 @@ int main() {
     signal(SIGINT, sighandler);
     int from_client;
     from_client = server_setup();
-    int f = fork();
-    if (f) {
-    } //parent
-    else {//child
-      subserver(from_client);
+    if(from_client){
+      int f = fork();
+      if (f) {
+        printf("forked!\n");
+      } //parent
+      else {//child
+        subserver(from_client);
+      }
     }
   }
 }
@@ -35,6 +38,7 @@ void subserver(int from_client) {
     printf("[server] performed process: %s\n", buffer);
     write(to_client, buffer, sizeof(buffer));
   }
+  exit(0);
 }
 
 void process(char * s) {
