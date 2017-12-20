@@ -19,8 +19,6 @@ int main() {
     from_client = server_setup();
     int f = fork();
     if (f) {
-      remove("luigi");
-      close(from_client);
     } //parent
     else {//child
       subserver(from_client);
